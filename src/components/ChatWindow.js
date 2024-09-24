@@ -172,7 +172,7 @@ const ChatWindow = ({ socket, role, roomId, onBurnConfession }) => {
           Your confession has been burned. It’s gone now.
         </Typography>
         <Typography variant="body1" sx={{ mt: 1 }}>
-          You will be redirected to the role selection page shortly.
+          Please REFRESH the page to start a new chat.
         </Typography>
       </Container>
     );
@@ -330,7 +330,7 @@ const ChatWindow = ({ socket, role, roomId, onBurnConfession }) => {
           severity="info"
           sx={{ width: "100%" }}
         >
-          The confession has been burned.
+          The confession has been burned. REFRESH the page to start a new chat.
         </Alert>
       </Snackbar>
     </Container>
