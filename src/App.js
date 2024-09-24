@@ -99,6 +99,7 @@ function App() {
     });
 
     // Handle confession being burned (confessor's side)
+    // Handle confession being burned (confessor's side)
     socket.on("burn_confession", () => {
       console.warn("Confession has been burned by confessor.");
       setNotification({
@@ -106,7 +107,11 @@ function App() {
         message: "Your confession has been burned.",
         severity: "warning",
       });
-      // No redirection here; handled by ChatWindow via onBurnConfession
+
+      // Wait for 2 seconds before resetting the chat states
+      setTimeout(() => {
+        resetChatStates(); // This function will reset states and refresh the page if needed
+      }, 2000); // 2000 milliseconds = 2 seconds
     });
 
     // Handle confession burned notification on listener's side
