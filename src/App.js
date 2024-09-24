@@ -133,7 +133,12 @@ function App() {
         message: "Your chat partner has disconnected.",
         severity: "warning",
       });
-      // Redirection handled by ChatWindow if necessary
+
+      // Redirect to Role Selection after a 2-second delay and refresh the page
+      const timeoutId = setTimeout(() => {
+        resetChatStates(); // This function will reset states and refresh the page
+      }, 2000);
+      timeoutsRef.current.push(timeoutId);
     });
 
     // Handle disconnection
