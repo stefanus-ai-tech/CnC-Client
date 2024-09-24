@@ -1,13 +1,15 @@
 // client/src/App.js
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import io from "socket.io-client";
 import RoleSelection from "./components/RoleSelection";
 import ChatWindow from "./components/ChatWindow";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { CssBaseline, CircularProgress, Typography, Box } from "@mui/material";
 
-// Connect to the backend server
-const socket = io(); // Automatically connects to the current host
+// Connect to the backend server using the environment variable
+const socket = io(process.env.REACT_APP_BACKEND_URL, {
+  transports: ["websocket"], // Optional: Specify transports if needed
+});
 
 // Define your theme here
 const theme = createTheme({
@@ -39,33 +41,50 @@ function App() {
   };
 
   // Listen for the 'matched' event from the server
-  socket.on("matched", (data) => {
-    setChatRole(data.role);
-    setRoomId(data.roomId);
-    setMatched(true);
-  });
+  useEffect(() => {
+    socket.on("matched", (data) => {
+      setChatRole(data.role);
+      setRoomId(data.roomId);
+      setMatched(true);
+    });
 
-  // Listen for error messages from the server
-  socket.on("error_message", (msg) => {
-    setError(msg);
-  });
+    // Listen for error messages from the server
+    socket.on("error_message", (msg) => {
+      setError(msg);
+    });
 
-  // Listen for when the confession is burned
-  socket.on("confession_burned", () => {
-    setMatched(false);
-    setRoomId(null);
-    setChatRole(null);
-    // Optionally, notify the user or redirect them
-  });
+    // Listen for when the confession is burned
+    socket.on("confession_burned", () => {
+      setMatched(false);
+      setRoomId(null);
+      setChatRole(null);
+      // Optionally, notify the user or redirect them
+    });
 
-  // Listen for participant disconnection
-  socket.on("participant_disconnected", () => {
-    setMatched(false);
-    setRoomId(null);
-    setChatRole(null);
-    // Optionally, notify the user
-    alert("Your chat partner has disconnected.");
-  });
+    // Listen for participant disconnection
+    socket.on("participant_disconnected", () => {
+      setMatched(false);
+      setRoomId(null);
+      setChatRole(null);
+      // Optionally, notify the user
+      alert("Your chat partner has disconnected.");
+    });
+
+    // Handle socket connection errors
+    socket.on("connect_error", (err) => {
+      setError("Connection failed. Please try again.");
+      console.error("Connection Error:", err);
+    });
+
+    // Cleanup on unmount
+    return () => {
+      socket.off("matched");
+      socket.off("error_message");
+      socket.off("confession_burned");
+      socket.off("participant_disconnected");
+      socket.off("connect_error");
+    };
+  }, []);
 
   return (
     <ThemeProvider theme={theme}>
