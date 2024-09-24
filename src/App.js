@@ -6,8 +6,15 @@ import ChatWindow from "./components/ChatWindow";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { CssBaseline, CircularProgress, Typography, Box } from "@mui/material";
 
-// Connect to the backend server using the environment variable
-const socket = io(process.env.REACT_APP_BACKEND_URL, {
+// Determine backend URL based on environment
+const backendURL =
+  process.env.NODE_ENV === "production"
+    ? process.env.REACT_APP_BACKEND_URL_PROD ||
+      "https://cnc-server-production.up.railway.app"
+    : process.env.REACT_APP_BACKEND_URL || "http://localhost:3000";
+
+// Connect to the backend server
+const socket = io(backendURL, {
   transports: ["websocket"], // Optional: Specify transports if needed
 });
 
@@ -40,20 +47,21 @@ function App() {
     socket.emit("select_role", selectedRole);
   };
 
-  // Listen for the 'matched' event from the server
+  // Listen for events from the server
   useEffect(() => {
+    // Handle successful match
     socket.on("matched", (data) => {
       setChatRole(data.role);
       setRoomId(data.roomId);
       setMatched(true);
     });
 
-    // Listen for error messages from the server
+    // Handle error messages
     socket.on("error_message", (msg) => {
       setError(msg);
     });
 
-    // Listen for when the confession is burned
+    // Handle confession being burned
     socket.on("confession_burned", () => {
       setMatched(false);
       setRoomId(null);
@@ -61,7 +69,7 @@ function App() {
       // Optionally, notify the user or redirect them
     });
 
-    // Listen for participant disconnection
+    // Handle participant disconnection
     socket.on("participant_disconnected", () => {
       setMatched(false);
       setRoomId(null);
