@@ -118,43 +118,43 @@ function App() {
         severity: "info",
       });
 
-      // Redirect to Role Selection after a 2-second delay and refresh the page
-      const timeoutId = setTimeout(() => {
-        resetChatStates(); // This function will reset states and refresh the page
-      }, 2000);
-      timeoutsRef.current.push(timeoutId);
-    });
+      // Handle confession burned notification on listener's side
+      socket.on("confession_burned", () => {
+        console.info("Listener received 'confession_burned' event.");
+        setNotification({
+          open: true,
+          message: "Confession has been burned.",
+          severity: "info",
+        });
 
-    // Handle participant disconnection
-    socket.on("participant_disconnected", () => {
-      console.warn("Your chat partner has disconnected.");
-      setNotification({
-        open: true,
-        message: "Your chat partner has disconnected.",
-        severity: "warning",
+        // Redirect to Role Selection after a 2-second delay and refresh the page
+        const timeoutId = setTimeout(() => {
+          console.info(
+            "Listener is resetting chat states and refreshing the page."
+          );
+          resetChatStates(); // This function will reset states and refresh the page
+        }, 2000);
+        timeoutsRef.current.push(timeoutId);
       });
 
-      // Redirect to Role Selection after a 2-second delay and refresh the page
-      const timeoutId = setTimeout(() => {
-        resetChatStates(); // This function will reset states and refresh the page
-      }, 2000);
-      timeoutsRef.current.push(timeoutId);
-    });
+      // Handle participant disconnection
+      socket.on("participant_disconnected", () => {
+        console.warn("Listener received 'participant_disconnected' event.");
+        setNotification({
+          open: true,
+          message: "Your chat partner has disconnected.",
+          severity: "warning",
+        });
 
-    // Handle disconnection
-    socket.on("disconnect", (reason) => {
-      console.error("Socket disconnected:", reason);
-      setNotification({
-        open: true,
-        message: "Disconnected from the server.",
-        severity: "error",
+        // Redirect to Role Selection after a 2-second delay and refresh the page
+        const timeoutId = setTimeout(() => {
+          console.info(
+            "Listener is resetting chat states and refreshing the page."
+          );
+          resetChatStates(); // This function will reset states and refresh the page
+        }, 2000);
+        timeoutsRef.current.push(timeoutId);
       });
-
-      // Wait for 3 seconds before resetting the states and refreshing the page
-      const timeoutId = setTimeout(() => {
-        resetChatStates(); // This function will reset states and refresh the page
-      }, 3000);
-      timeoutsRef.current.push(timeoutId);
     });
 
     // Handle socket connection errors
@@ -197,6 +197,7 @@ function App() {
 
   // Function to reset chat-related states and refresh the page
   const resetChatStates = () => {
+    console.info("resetChatStates called. Resetting state and reloading page.");
     setRole(null);
     setMatched(false);
     setChatRole(null);
