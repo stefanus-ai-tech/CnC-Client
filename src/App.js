@@ -1,5 +1,5 @@
 // client/src/App.js
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import io from "socket.io-client";
 import RoleSelection from "./components/RoleSelection";
 import ChatWindow from "./components/ChatWindow";
@@ -19,11 +19,6 @@ const backendURL =
   process.env.NODE_ENV === "production"
     ? process.env.REACT_APP_BACKEND_URL_PROD // In production, assume the backend is served from the same origin
     : process.env.REACT_APP_BACKEND_URL || "http://localhost:3000";
-
-// Initialize Socket.IO connection
-const socket = io(backendURL, {
-  transports: ["websocket"], // Optional: Specify transports if needed
-});
 
 // Define your theme here
 const theme = createTheme({
@@ -55,24 +50,32 @@ function App() {
     severity: "info",
   });
 
-  // Handler to select role and emit event to server
-  const selectRole = (selectedRole) => {
-    setRole(selectedRole);
-    socket.emit("select_role", selectedRole);
-  };
+  // useRef to store the socket instance
+  const socketRef = useRef(null);
 
-  // Handler to redirect to Role Selection and disconnect socket
-  const onBurnConfession = async () => {
-    setRole(null);
-    setMatched(false);
-    setChatRole(null);
-    setRoomId(null);
+  // useRef to store timeout IDs for cleanup
+  const timeoutsRef = useRef([]);
 
-    socket.disconnect(); // Disconnect the socket after the delay
-  };
-
-  // Listen for events from the server
+  // Initialize Socket.IO connection inside useEffect
   useEffect(() => {
+    // Initialize the socket with reconnection options
+    socketRef.current = io(backendURL, {
+      transports: ["websocket"],
+      reconnectionAttempts: Infinity, // Unlimited reconnection attempts
+      reconnectionDelay: 2000, // 2 seconds delay between attempts
+    });
+
+    const socket = socketRef.current;
+
+    // Handle successful connection
+    socket.on("connect", () => {
+      setNotification({
+        open: true,
+        message: "Connected to the server.",
+        severity: "success",
+      });
+    });
+
     // Handle successful match
     socket.on("matched", (data) => {
       setChatRole(data.role);
@@ -108,7 +111,12 @@ function App() {
         message: "Confession has been burned.",
         severity: "info",
       });
-      // No redirection here; handled by ChatWindow via onBurnConfession
+
+      // Redirect to Role Selection after a 2-second delay
+      const timeoutId = setTimeout(() => {
+        resetChatStates();
+      }, 2000);
+      timeoutsRef.current.push(timeoutId);
     });
 
     // Handle participant disconnection
@@ -121,31 +129,21 @@ function App() {
       // Redirection handled by ChatWindow if necessary
     });
 
-    // Handle connection status
-    socket.on("connect", () => {
-      setNotification({
-        open: true,
-        message: "Connected to the server.",
-        severity: "success",
-      });
-    });
-
-    socket.on("disconnect", async (reason) => {
+    // Handle disconnection
+    socket.on("disconnect", (reason) => {
       setNotification({
         open: true,
         message: "Disconnected from the server.",
         severity: "error",
       });
 
-      // Wait for 2 seconds before resetting the states
-      await new Promise((resolve) => setTimeout(resolve, 3000));
-
-      // Reset states after the delay to trigger redirection
-      setMatched(false);
-      setRoomId(null);
-      setChatRole(null);
-      setRole(null); // Redirect to Role Selection after delay
+      // Wait for 3 seconds before resetting the states
+      const timeoutId = setTimeout(() => {
+        resetChatStates();
+      }, 3000);
+      timeoutsRef.current.push(timeoutId);
     });
+
     // Handle socket connection errors
     socket.on("connect_error", (err) => {
       setError("Connection failed. Please try again.");
@@ -159,16 +157,60 @@ function App() {
 
     // Cleanup on unmount
     return () => {
+      // Capture the current timeouts in a local variable
+      const timeouts = [...timeoutsRef.current];
+
+      // Remove all event listeners
+      socket.off("connect");
       socket.off("matched");
       socket.off("error_message");
       socket.off("burn_confession");
       socket.off("confession_burned");
       socket.off("participant_disconnected");
-      socket.off("connect");
       socket.off("disconnect");
       socket.off("connect_error");
+
+      // Disconnect the socket
+      socket.disconnect();
+
+      // Clear all pending timeouts using the captured timeouts
+      timeouts.forEach((timeout) => clearTimeout(timeout));
+
+      // Optionally, clear the timeoutsRef.current array
+      timeoutsRef.current = [];
     };
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Empty dependency array ensures this runs once on mount
+
+  // Function to reset chat-related states
+  const resetChatStates = () => {
+    setRole(null);
+    setMatched(false);
+    setChatRole(null);
+    setRoomId(null);
+  };
+
+  // Effect to attempt reconnection when role is null (redirected to RoleSelection)
+  useEffect(() => {
+    if (!role && socketRef.current) {
+      // Attempt to reconnect if not already connected
+      if (!socketRef.current.connected) {
+        socketRef.current.connect();
+      }
+    }
+  }, [role]);
+
+  // Handler to select role and emit event to server
+  const selectRole = (selectedRole) => {
+    setRole(selectedRole);
+    socketRef.current.emit("select_role", selectedRole);
+  };
+
+  // Handler to redirect to Role Selection without disconnecting the socket
+  const onBurnConfession = () => {
+    resetChatStates();
+    // socketRef.current.disconnect(); // Removed to allow reconnection
+  };
 
   // Handle closing of notifications
   const handleCloseNotification = (event, reason) => {
@@ -215,7 +257,7 @@ function App() {
             </Box>
           ) : (
             <ChatWindow
-              socket={socket}
+              socket={socketRef.current}
               role={chatRole}
               roomId={roomId}
               onBurnConfession={onBurnConfession}
