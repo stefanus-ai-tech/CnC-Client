@@ -29,6 +29,10 @@ const ChatWindow = ({ socket, role, roomId, onBurnConfession }) => {
   const cooldownDuration = 10; // Cooldown duration in seconds
   const cooldownRef = useRef(null);
 
+  // State for Listener's confession burned notification
+  const [confessionBurnedNotification, setConfessionBurnedNotification] =
+    useState(false);
+
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
@@ -45,24 +49,23 @@ const ChatWindow = ({ socket, role, roomId, onBurnConfession }) => {
       }
     });
 
-    // Listen for burn confession
+    // Listen for burn confession (Confessor's side)
     socket.on("burn_confession", () => {
       setBurn(true);
+      // After 2 seconds, reset burn state and redirect to Role Selection
       setTimeout(() => {
         setBurn(false);
         setMessages([]);
         if (onBurnConfession) onBurnConfession();
-      }, 3000); // Duration of burn.gif
+      }, 2000); // Changed duration from 3000ms to 2000ms
     });
 
-    // Listen for confession burned notification
+    // Listen for confession burned notification (Listener's side)
     socket.on("confession_burned", () => {
-      setBurn(true);
-      setTimeout(() => {
-        setBurn(false);
-        setMessages([]);
-        if (onBurnConfession) onBurnConfession();
-      }, 3000); // Duration of burn.gif
+      // Show Snackbar notification for Listener
+      setConfessionBurnedNotification(true);
+      // Optionally, you can clear messages or perform other actions
+      setMessages([]);
     });
 
     // Listen for connection errors
@@ -85,6 +88,8 @@ const ChatWindow = ({ socket, role, roomId, onBurnConfession }) => {
     socket.on("participant_disconnected", () => {
       // Optionally handle disconnections
       alert("Your chat partner has disconnected.");
+      // You might want to redirect to Role Selection here as well
+      if (onBurnConfession) onBurnConfession();
     });
 
     // Cleanup on unmount
@@ -112,7 +117,7 @@ const ChatWindow = ({ socket, role, roomId, onBurnConfession }) => {
       mode: "normal",
     };
     socket.emit("send_message", messageData);
-    setMessages((prev) => [...prev, { from: "you", message: input }]);
+    setMessages((prev) => [...prev, { from: "You", message: input }]);
     setInput("");
   };
 
@@ -122,11 +127,14 @@ const ChatWindow = ({ socket, role, roomId, onBurnConfession }) => {
       mode: "listening", // Updated mode
     };
     socket.emit("send_message", messageData);
-    setMessages((prev) => [...prev, { from: "you", message: "I'm listening" }]);
+    setMessages((prev) => [...prev, { from: "You", message: "I'm listening" }]);
 
     // Disable the button and start cooldown
     setCanSendListening(false);
     setCooldown(cooldownDuration);
+
+    // Clear any existing cooldown interval
+    if (cooldownRef.current) clearInterval(cooldownRef.current);
 
     cooldownRef.current = setInterval(() => {
       setCooldown((prev) => {
@@ -147,17 +155,24 @@ const ChatWindow = ({ socket, role, roomId, onBurnConfession }) => {
     setError("");
   };
 
+  const handleCloseNotification = () => {
+    setConfessionBurnedNotification(false);
+  };
+
   if (burn) {
     return (
       <Container maxWidth="sm" sx={{ textAlign: "center", mt: 5 }}>
         <img
-          src="/burn.gif"
+          src="/images/burn.gif" // Ensure burn.gif is in public/images/
           alt="Burning Confession"
           width="300"
           height="300"
         />
         <Typography variant="h6" sx={{ mt: 2, color: "#fff" }}>
           Your confession has been burned. It’s gone now.
+        </Typography>
+        <Typography variant="body1" sx={{ mt: 1 }}>
+          You will be redirected to the role selection page shortly.
         </Typography>
       </Container>
     );
@@ -183,11 +198,11 @@ const ChatWindow = ({ socket, role, roomId, onBurnConfession }) => {
             <ListItem key={index} alignItems="flex-start">
               <Avatar
                 sx={{
-                  bgcolor: msg.from === "you" ? "error.main" : "primary.main",
+                  bgcolor: msg.from === "You" ? "error.main" : "primary.main",
                   mr: 2,
                 }}
               >
-                {msg.from === "you"
+                {msg.from === "You"
                   ? "Y"
                   : msg.from === "Confessor"
                   ? "C"
@@ -195,7 +210,7 @@ const ChatWindow = ({ socket, role, roomId, onBurnConfession }) => {
               </Avatar>
               <ListItemText
                 primary={
-                  msg.from === "you"
+                  msg.from === "You"
                     ? "You"
                     : msg.from === "Confessor"
                     ? "Confessor"
@@ -203,7 +218,7 @@ const ChatWindow = ({ socket, role, roomId, onBurnConfession }) => {
                 }
                 secondary={msg.message}
                 sx={{
-                  textAlign: msg.from === "you" ? "right" : "left",
+                  textAlign: msg.from === "You" ? "right" : "left",
                   color: "#fff", // White text for readability
                 }}
               />
@@ -300,6 +315,22 @@ const ChatWindow = ({ socket, role, roomId, onBurnConfession }) => {
       <Snackbar open={!!error} autoHideDuration={6000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
           {error}
+        </Alert>
+      </Snackbar>
+
+      {/* Listener's Confession Burned Notification */}
+      <Snackbar
+        open={confessionBurnedNotification}
+        autoHideDuration={6000}
+        onClose={handleCloseNotification}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      >
+        <Alert
+          onClose={handleCloseNotification}
+          severity="info"
+          sx={{ width: "100%" }}
+        >
+          The confession has been burned.
         </Alert>
       </Snackbar>
     </Container>
