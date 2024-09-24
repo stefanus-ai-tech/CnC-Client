@@ -197,14 +197,18 @@ function App() {
 
   // Function to reset chat-related states and refresh the page
   const resetChatStates = () => {
-    console.info("resetChatStates called. Resetting state and reloading page.");
+    console.info(
+      "resetChatStates called. Resetting state and reconnecting socket."
+    );
     setRole(null);
     setMatched(false);
     setChatRole(null);
     setRoomId(null);
 
-    // Automatically refresh the page to reset the application
-    window.location.reload();
+    // Reconnect the socket if necessary
+    if (socketRef.current && !socketRef.current.connected) {
+      socketRef.current.connect();
+    }
   };
 
   // Effect to attempt reconnection when role is null (redirected to RoleSelection)
