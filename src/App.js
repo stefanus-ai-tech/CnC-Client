@@ -17,7 +17,7 @@ import {
 // Determine backend URL based on environment
 const backendURL =
   process.env.NODE_ENV === "production"
-    ? window.location.origin // In production, assume the backend is served from the same origin
+    ? process.env.REACT_APP_BACKEND_URL_PROD // In production, assume the backend is served from the same origin
     : process.env.REACT_APP_BACKEND_URL || "http://localhost:3000";
 
 // Initialize Socket.IO connection
