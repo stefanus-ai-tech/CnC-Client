@@ -1,4 +1,5 @@
 // client/src/components/RoleSelection.js
+
 import React, { useState, useEffect } from 'react';
 import { Container, Typography, Box, Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
@@ -28,7 +29,7 @@ const animatedTitle = ['Welcome', 'to', 'the', 'Sanctuary', 'of', 'Confession'];
 const AnimatedTitle = styled(Typography)(({ theme }) => ({
   fontFamily: 'IM Fell English, serif', // Updated font
   fontSize: '3.5em', // Adjust as needed
-  maxWidth: '750px',
+  maxWidth: '750px', // Reduced width for the title container
   margin: '20px auto 50px auto', // Increased bottom margin for spacing
   textAlign: 'center',
   animation: 'scale 3s forwards cubic-bezier(0.5, 1, 0.89, 1)',
@@ -46,6 +47,7 @@ const RoleSelection = ({ selectRole }) => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [typingSpeed, setTypingSpeed] = useState(150); // Initial typing speed
   const [titleAnimationComplete, setTitleAnimationComplete] = useState(false); // New state
+  const [buttonsVisible, setButtonsVisible] = useState(false); // New state for buttons visibility
 
   // Effect to set titleAnimationComplete after animation + delay
   useEffect(() => {
@@ -81,9 +83,14 @@ const RoleSelection = ({ selectRole }) => {
       if (!isDeleting && displayedText === fullText) {
         // Pause before starting to delete
         setTimeout(() => setIsDeleting(true), 2000);
+
+        // After the first quote is fully displayed, trigger buttons fade-in
+        if (currentQuoteIndex === 0) {
+          setTimeout(() => setButtonsVisible(true), 750); // 0.75 seconds delay
+        }
       }
-      // If the text is fully deleted
-      else if (isDeleting && displayedText === '') {
+      // If the text is fully deleted down to the first quotation mark
+      else if (isDeleting && displayedText === '"') {
         setIsDeleting(false);
         setCurrentQuoteIndex((prev) => (prev + 1) % quotes.length);
       }
@@ -119,11 +126,11 @@ const RoleSelection = ({ selectRole }) => {
       {titleAnimationComplete && (
         <Box className="quotes-container">
           <Typography className="typewriter-text">{displayedText}</Typography>
-        </Box>
+        </Box> /*don't add any cursor */
       )}
 
       {/* Action Buttons */}
-      <Box className="buttons-container">
+      <Box className={`buttons-container ${buttonsVisible ? 'visible' : ''}`}>
         <StyledButton
           variant="contained"
           style={{ backgroundColor: '#551606' }}

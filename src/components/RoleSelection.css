@@ -14,19 +14,21 @@
 .role-selection-container {
   text-align: center;
   padding-top: 5em; /* Adjusted to position the title higher */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 /* Adjusted Animated Title Styles */
 .animated-title {
   font-family: 'IM Fell English', serif; /* Updated font */
   font-size: 3.5em; /* Adjust as needed */
-  max-width: 100%;
+  max-width: 800px; /* Reduced width for the title container */
   margin: 20px auto 50px auto; /* Increased bottom margin for spacing */
   text-align: center;
   animation: scale 3s forwards cubic-bezier(0.5, 1, 0.89, 1);
 }
 
-/* Adjusted scale animation */
 @keyframes scale {
   100% {
     transform: scale(1); /* Ensure no reduction */
@@ -38,11 +40,10 @@
   opacity: 0;
   filter: blur(4px);
   /* Add spacing between words */
-  margin-right: 10px; /* Increased margin for better spacing */
+  margin-right: 20px; /* Increased margin for better spacing */
   animation: fade-in 2s forwards cubic-bezier(0.11, 0, 0.5, 0);
 }
 
-/* Keyframes for fade-in animation */
 @keyframes fade-in {
   to {
     opacity: 1;
@@ -53,17 +54,20 @@
 /* Quotes Container */
 .quotes-container {
   margin-bottom: 30px; /* Adds space between quotes and buttons */
+  height: 60px; /* Set a fixed height sufficient to contain the quotes */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* Typewriter effect styles */
 .typewriter-text {
   font-family: 'Goudy Bookletter 1911', serif; /* Updated font */
   font-size: 20px;
-  margin: 20px 0;
+  margin: 0; /* Remove margins to prevent height changes */
   display: inline-block;
   white-space: nowrap;
   overflow: hidden;
-  border-right: 0.15em solid #fff;
 }
 
 .cursor {
@@ -72,7 +76,6 @@
   animation: blinkCursor 0.7s steps(44) infinite;
 }
 
-/* Blinking cursor animation */
 @keyframes blinkCursor {
   from {
     border-right-color: rgba(255, 255, 255, 0.75);
@@ -87,6 +90,12 @@
   display: flex;
   justify-content: center;
   margin-top: 20px; /* Adds space above the buttons */
+  opacity: 0; /* Initially hidden */
+  transition: opacity 0.5s ease-in; /* Smooth transition for fade-in */
+}
+
+.buttons-container.visible {
+  opacity: 1; /* Fully visible when the 'visible' class is added */
 }
 
 /* Global styles for body */
