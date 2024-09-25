@@ -82,7 +82,7 @@ function DisclaimerModal({ open, onAcknowledge }) {
               textTransform: 'none',
               fontFamily: "'Goudy Bookletter 1911', serif", // Applying Goudy font
               fontSize: isMobile ? '16px' : '20px', // Larger button text
-              padding: isMobile ? '10px 20px' : '15px 30px', // Bigger button padding for emphasis
+              padding: isMobile ? '10px 20px' : '15px 30px',
             }}
             onClick={onAcknowledge}>
             I Agree
