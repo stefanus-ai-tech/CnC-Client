@@ -17,6 +17,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%; /* Ensure it takes full available width */
 }
 
 /* Adjusted Animated Title Styles */
@@ -54,22 +55,24 @@
 /* Quotes Container */
 .quotes-container {
   margin-bottom: 30px; /* Adds space between quotes and buttons */
-  height: 60px; /* Set a fixed height sufficient to contain the quotes */
+  min-height: 60px; /* Ensures a minimum height to prevent collapsing */
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100%; /* Ensure it takes full available width */
 }
 
 /* Typewriter effect styles */
 .typewriter-text {
   font-family: 'Goudy Bookletter 1911', serif; /* Updated font */
-  font-size: 20px;
+  font-size: 25px;
   margin: 0; /* Remove margins to prevent height changes */
   display: inline-block;
-  white-space: nowrap;
+  white-space: nowrap; /* Keep for larger screens */
   overflow: hidden;
 }
 
+/* Remove cursor styles if not used */
 .cursor {
   display: inline-block;
   margin-left: 2px;
@@ -109,5 +112,46 @@ body {
   justify-content: center;
   align-items: flex-start; /* Changed from center to flex-start to align content towards the top */
   min-height: 100vh;
-  padding-top: 15em; /* Added padding at the top for some space */
+  padding-top: 10em; /* Added padding at the top for some space */
+}
+
+/* Media Queries for Mobile Devices */
+@media (max-width: 600px) {
+  /* Apply global padding to prevent content from touching edges */
+  .role-selection-container {
+    padding: 5px; /* 5px padding on all sides */
+    max-width: calc(
+      100% - 10px
+    ); /* Ensure container doesn't exceed viewport width */
+  }
+
+  /* Quotes Container Adjustments */
+  .quotes-container {
+    padding: 0 5px; /* Adds 5px padding on left and right */
+    min-height: 60px; /* Ensure it can expand */
+  }
+
+  /* Typewriter Text Adjustments */
+  .typewriter-text {
+    font-size: 20px; /* Reduce font size for better fit */
+    white-space: normal; /* Allow text to wrap */
+    max-width: 100%; /* Ensure it doesn't exceed container width */
+    word-wrap: break-word; /* Break long words if necessary */
+  }
+
+  /* Animated Title Adjustments */
+  .animated-title {
+    font-size: 2.5em; /* Smaller title font size */
+    max-width: 100%; /* Allow title to use full width minus padding */
+  }
+
+  /* Buttons Container Adjustments */
+  .buttons-container {
+    flex-direction: column; /* Stack buttons vertically on small screens */
+  }
+
+  .buttons-container .MuiButton-root {
+    width: 100%; /* Make buttons full-width for easier tapping */
+    max-width: 300px; /* Optional: Limit maximum width */
+  }
 }
