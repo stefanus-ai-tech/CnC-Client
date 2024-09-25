@@ -1,7 +1,7 @@
 /* client/src/components/RoleSelection.css */
 
 /* Import Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&family=Anonymous+Pro&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IM+Fell+English&family=Goudy+Bookletter+1911&display=swap');
 
 /* Reset default styles */
 * {
@@ -18,10 +18,10 @@
 
 /* Adjusted Animated Title Styles */
 .animated-title {
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'IM Fell English', serif; /* Updated font */
   font-size: 3.5em; /* Adjust as needed */
   max-width: 100%;
-  margin: 0 auto 20px auto;
+  margin: 20px auto 50px auto; /* Increased bottom margin for spacing */
   text-align: center;
   animation: scale 3s forwards cubic-bezier(0.5, 1, 0.89, 1);
 }
@@ -50,9 +50,14 @@
   }
 }
 
+/* Quotes Container */
+.quotes-container {
+  margin-bottom: 30px; /* Adds space between quotes and buttons */
+}
+
 /* Typewriter effect styles */
 .typewriter-text {
-  font-family: 'Anonymous Pro', monospace;
+  font-family: 'Goudy Bookletter 1911', serif; /* Updated font */
   font-size: 20px;
   margin: 20px 0;
   display: inline-block;
@@ -77,16 +82,23 @@
   }
 }
 
+/* Buttons Container */
+.buttons-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px; /* Adds space above the buttons */
+}
+
 /* Global styles for body */
 body {
   margin: 0;
   padding: 0;
   background-color: #191919;
-  font-family: 'Anonymous Pro', monospace;
+  font-family: 'Goudy Bookletter 1911', serif; /* Updated font for global text */
   color: #ffffff;
   display: flex;
   justify-content: center;
   align-items: flex-start; /* Changed from center to flex-start to align content towards the top */
   min-height: 100vh;
-  padding-top: 2em; /* Added padding at the top for some space */
+  padding-top: 15em; /* Added padding at the top for some space */
 }

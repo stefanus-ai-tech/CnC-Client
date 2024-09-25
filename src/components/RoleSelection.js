@@ -4,6 +4,7 @@ import { Container, Typography, Box, Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import './RoleSelection.css'; // Import the CSS file for styles
 
+// Styled Button with Goudy Bookletter 1911 font and no uppercase transformation
 const StyledButton = styled(Button)(({ theme }) => ({
   width: '120px',
   height: '50px',
@@ -12,21 +13,23 @@ const StyledButton = styled(Button)(({ theme }) => ({
   color: '#fff',
   fontWeight: 'bold',
   borderRadius: '8px',
+  fontFamily: 'Goudy Bookletter 1911, serif', // Updated font
+  textTransform: 'none', // Prevents uppercase transformation
 }));
 
 const quotes = [
-  'Come as you are, no judgment here',
-  'Let today be the day you find peace within yourself.',
+  '"Come as you are, no judgment here"',
+  '"Let today be the day you find peace within yourself."',
 ];
 
 const animatedTitle = ['Welcome', 'to', 'the', 'Sanctuary', 'of', 'Confession']; // Removed trailing spaces
 
-// Styled Typography with responsive font size
+// Styled Typography with responsive font size and IM Fell English font
 const AnimatedTitle = styled(Typography)(({ theme }) => ({
-  fontFamily: 'Montserrat, sans-serif',
+  fontFamily: 'IM Fell English, serif', // Updated font
   fontSize: '3.5em', // Adjust as needed
-  maxWidth: '100%',
-  margin: '0 auto 20px auto',
+  maxWidth: '750px',
+  margin: '20px auto 50px auto', // Increased bottom margin for spacing
   textAlign: 'center',
   animation: 'scale 3s forwards cubic-bezier(0.5, 1, 0.89, 1)',
   [theme.breakpoints.down('sm')]: {
@@ -47,7 +50,7 @@ const RoleSelection = ({ selectRole }) => {
   // Effect to set titleAnimationComplete after animation + delay
   useEffect(() => {
     const titleAnimationDuration = 3000; // 3 seconds for scale animation
-    const delayAfterAnimation = 750; // 0.7 seconds delay
+    const delayAfterAnimation = 750; // 0.75 seconds delay
     const totalDelay = titleAnimationDuration + delayAfterAnimation;
 
     const timer = setTimeout(() => {
@@ -98,7 +101,7 @@ const RoleSelection = ({ selectRole }) => {
   ]);
 
   return (
-    <Container maxWidth="sm" className="role-selection-container">
+    <Container maxWidth="md" className="role-selection-container">
       {/* Animated Title */}
       <AnimatedTitle component="h1" className="animated-title">
         {animatedTitle.map((word, index) => (
@@ -112,16 +115,15 @@ const RoleSelection = ({ selectRole }) => {
         ))}
       </AnimatedTitle>
 
-      {/* Typewriter Quote */}
+      {/* Quotes Container */}
       {titleAnimationComplete && (
-        <Typography className="typewriter-text">
-          {displayedText}
-          <span className="cursor">|</span>
-        </Typography>
+        <Box className="quotes-container">
+          <Typography className="typewriter-text">{displayedText}</Typography>
+        </Box>
       )}
 
       {/* Action Buttons */}
-      <Box>
+      <Box className="buttons-container">
         <StyledButton
           variant="contained"
           style={{ backgroundColor: '#551606' }}
