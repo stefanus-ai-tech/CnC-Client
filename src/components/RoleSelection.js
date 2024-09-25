@@ -140,13 +140,20 @@ const RoleSelection = ({ selectRole }) => {
       <Box className={`buttons-container ${buttonsVisible ? 'visible' : ''}`}>
         <StyledButton
           variant="contained"
-          style={{ backgroundColor: '#551606' }}
+          sx={{
+            backgroundColor: '#551606',
+            fontFamily: "'Goudy Bookletter 1911', serif",
+          }}
           onClick={() => selectRole('confessor')}>
           Confessor
         </StyledButton>
         <StyledButton
           variant="contained"
-          style={{ backgroundColor: '#f5eded', color: '#000' }}
+          style={{
+            backgroundColor: '#f5eded',
+            color: '#000',
+            fontFamily: "'Goudy Bookletter 1911', serif",
+          }}
           onClick={() => selectRole('listener')}>
           Listener
         </StyledButton>

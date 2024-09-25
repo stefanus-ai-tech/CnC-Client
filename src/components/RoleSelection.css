@@ -3,6 +3,20 @@
 /* Import Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=IM+Fell+English&family=Goudy+Bookletter+1911&display=swap');
 
+/* Global styles for body */
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #191919;
+  font-family: 'Goudy Bookletter 1911', serif; /* Updated font for global text */
+  color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Changed from center to flex-start to align content towards the top */
+  min-height: 100vh;
+  padding-top: 10em; /* Added padding at the top for some space */
+}
+
 /* Reset default styles */
 * {
   padding: 0;
@@ -25,7 +39,7 @@
   font-family: 'IM Fell English', serif; /* Updated font */
   font-size: 4em; /* Adjusted font size */
   max-width: 800px; /* Reduced width for the title container */
-  margin: 20px auto 50px auto; /* Increased bottom margin for spacing */
+  margin: 200px auto 500px auto; /* Increased bottom margin for spacing */
   text-align: center;
   animation: scale 3s forwards cubic-bezier(0.5, 1, 0.89, 1);
 }
@@ -78,6 +92,20 @@
 }
 
 @media (max-width: 600px) {
+  /* Global styles for body */
+  body {
+    margin: 0;
+    padding: 0;
+    background-color: #191919;
+    font-family: 'Goudy Bookletter 1911', serif; /* Updated font for global text */
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Changed from center to flex-start to align content towards the top */
+    min-height: 100vh;
+    padding-top: 6em !important; /* Added padding at the top for some space */
+  }
+
   .quotes-container {
     margin-bottom: 30px; /* Adds space between quotes and buttons */
     min-height: 30px; /* Ensures a minimum height to prevent collapsing */
@@ -92,42 +120,6 @@
     max-width: 100%; /* Ensure it doesn't exceed container width */
     word-wrap: break-word; /* Break long words if necessary */
   }
-}
-
-/* Remove cursor styles if not used */
-.cursor {
-  display: inline-block;
-  margin-left: 2px;
-  animation: blinkCursor 0.7s steps(44) infinite;
-}
-
-@keyframes blinkCursor {
-  from {
-    border-right-color: rgba(255, 255, 255, 0.75);
-  }
-  to {
-    border-right-color: transparent;
-  }
-}
-
-/* Updated Buttons Container */
-.buttons-container {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  max-width: 400px;
-  margin: 20px auto 0;
-  opacity: 0;
-  transition: opacity 0.5s ease-in;
-  padding-bottom: 20px; /* Added padding at the bottom for extra space */
-}
-
-.buttons-container.visible {
-  opacity: 1;
-}
-
-/* Media Queries for Mobile Devices */
-@media (max-width: 600px) {
   .buttons-container {
     flex-direction: column;
     align-items: center;
@@ -139,27 +131,9 @@
     max-width: 300px;
     margin: 10px 0;
   }
-}
-
-/* Global styles for body */
-body {
-  margin: 0;
-  padding: 0;
-  background-color: #191919;
-  font-family: 'Goudy Bookletter 1911', serif; /* Updated font for global text */
-  color: #ffffff;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start; /* Changed from center to flex-start to align content towards the top */
-  min-height: 100vh;
-  padding-top: 10em; /* Added padding at the top for some space */
-}
-
-/* Media Queries for Mobile Devices */
-@media (max-width: 600px) {
   /* Apply global padding to prevent content from touching edges */
   .role-selection-container {
-    padding: 5px; /* 5px padding on all sides */
+    padding: 0px; /* 5px padding on all sides */
     max-width: calc(
       100% - 10px
     ); /* Ensure container doesn't exceed viewport width */
@@ -198,4 +172,36 @@ body {
     width: 100%; /* Make buttons full-width for easier tapping */
     max-width: 300px; /* Optional: Limit maximum width */
   }
+}
+
+/* Remove cursor styles if not used */
+.cursor {
+  display: inline-block;
+  margin-left: 2px;
+  animation: blinkCursor 0.7s steps(44) infinite;
+}
+
+@keyframes blinkCursor {
+  from {
+    border-right-color: rgba(255, 255, 255, 0.75);
+  }
+  to {
+    border-right-color: transparent;
+  }
+}
+
+/* Updated Buttons Container */
+.buttons-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 400px;
+  margin: 20px auto 0;
+  opacity: 0;
+  transition: opacity 0.5s ease-in;
+  padding-bottom: 20px; /* Added padding at the bottom for extra space */
+}
+
+.buttons-container.visible {
+  opacity: 1;
 }
