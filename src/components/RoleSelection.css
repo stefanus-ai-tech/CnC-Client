@@ -23,7 +23,7 @@
 /* Adjusted Animated Title Styles */
 .animated-title {
   font-family: 'IM Fell English', serif; /* Updated font */
-  font-size: 3.5em; /* Adjust as needed */
+  font-size: 4em; /* Adjusted font size */
   max-width: 800px; /* Reduced width for the title container */
   margin: 20px auto 50px auto; /* Increased bottom margin for spacing */
   text-align: center;
@@ -62,14 +62,28 @@
   width: 100%; /* Ensure it takes full available width */
 }
 
+/* Inside RoleSelection.css */
+.quotes-container .typewriter-text {
+  font-size: 25px !important; /* Force the font size change */
+}
+
 /* Typewriter effect styles */
 .typewriter-text {
   font-family: 'Goudy Bookletter 1911', serif; /* Updated font */
-  font-size: 25px;
+  font-size: 40px; /* Increased font size */
   margin: 0; /* Remove margins to prevent height changes */
   display: inline-block;
   white-space: nowrap; /* Keep for larger screens */
   overflow: hidden;
+}
+
+@media (max-width: 600px) {
+  .typewriter-text {
+    font-size: 22px; /* Adjust for better mobile fit */
+    white-space: normal; /* Allow text to wrap */
+    max-width: 100%; /* Ensure it doesn't exceed container width */
+    word-wrap: break-word; /* Break long words if necessary */
+  }
 }
 
 /* Remove cursor styles if not used */
@@ -88,17 +102,33 @@
   }
 }
 
-/* Buttons Container */
+/* Updated Buttons Container */
 .buttons-container {
   display: flex;
-  justify-content: center;
-  margin-top: 20px; /* Adds space above the buttons */
-  opacity: 0; /* Initially hidden */
-  transition: opacity 0.5s ease-in; /* Smooth transition for fade-in */
+  justify-content: space-between;
+  width: 100%;
+  max-width: 400px;
+  margin: 20px auto 0;
+  opacity: 0;
+  transition: opacity 0.5s ease-in;
 }
 
 .buttons-container.visible {
-  opacity: 1; /* Fully visible when the 'visible' class is added */
+  opacity: 1;
+}
+
+/* Media Queries for Mobile Devices */
+@media (max-width: 600px) {
+  .buttons-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .buttons-container .MuiButton-root {
+    width: 100%;
+    max-width: 300px;
+    margin: 10px 0;
+  }
 }
 
 /* Global styles for body */
@@ -133,7 +163,7 @@ body {
 
   /* Typewriter Text Adjustments */
   .typewriter-text {
-    font-size: 20px; /* Reduce font size for better fit */
+    font-size: 22px; /* Adjusted font size */
     white-space: normal; /* Allow text to wrap */
     max-width: 100%; /* Ensure it doesn't exceed container width */
     word-wrap: break-word; /* Break long words if necessary */
@@ -141,7 +171,7 @@ body {
 
   /* Animated Title Adjustments */
   .animated-title {
-    font-size: 2.5em; /* Smaller title font size */
+    font-size: 3em; /* Smaller title font size */
     max-width: 100%; /* Allow title to use full width minus padding */
   }
 

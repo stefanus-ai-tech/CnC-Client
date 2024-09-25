@@ -6,16 +6,23 @@ import { styled } from '@mui/material/styles';
 import './RoleSelection.css'; // Import the CSS file for styles
 
 // Styled Button with Goudy Bookletter 1911 font and no uppercase transformation
+// Inside RoleSelection.js
+
 const StyledButton = styled(Button)(({ theme }) => ({
-  width: '120px',
+  width: '120px', // Keep fixed width
   height: '50px',
   margin: '10px',
-  fontSize: '16px',
+  fontSize: '18px', // Increased font size
   color: '#fff',
   fontWeight: 'bold',
   borderRadius: '8px',
   fontFamily: 'Goudy Bookletter 1911, serif', // Updated font
   textTransform: 'none', // Prevents uppercase transformation
+  [theme.breakpoints.down('sm')]: {
+    fontSize: '16px', // Smaller font size for mobile
+    width: '100%', // Full width on mobile
+    maxWidth: '300px',
+  },
 }));
 
 const quotes = [
@@ -28,16 +35,16 @@ const animatedTitle = ['Welcome', 'to', 'the', 'Sanctuary', 'of', 'Confession'];
 // Styled Typography with responsive font size and IM Fell English font
 const AnimatedTitle = styled(Typography)(({ theme }) => ({
   fontFamily: 'IM Fell English, serif', // Updated font
-  fontSize: '3.5em', // Adjust as needed
-  maxWidth: '750px', // Reduced width for the title container
+  fontSize: '4em', // Adjusted font size
+  maxWidth: '780px', // Reduced width for the title container
   margin: '20px auto 50px auto', // Increased bottom margin for spacing
   textAlign: 'center',
   animation: 'scale 3s forwards cubic-bezier(0.5, 1, 0.89, 1)',
   [theme.breakpoints.down('sm')]: {
-    fontSize: '2em', // Smaller size for small screens
+    fontSize: '2.3em', // Smaller size for small screens
   },
   [theme.breakpoints.up('md')]: {
-    fontSize: '4em', // Larger size for medium and up
+    fontSize: '4.em', // Larger size for medium and up
   },
 }));
 
