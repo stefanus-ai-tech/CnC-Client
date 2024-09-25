@@ -54,7 +54,7 @@
 
 /* Quotes Container */
 .quotes-container {
-  margin-bottom: 30px; /* Adds space between quotes and buttons */
+  margin-bottom: 60px; /* Adds space between quotes and buttons */
   min-height: 60px; /* Ensures a minimum height to prevent collapsing */
   display: flex;
   justify-content: center;
@@ -64,13 +64,13 @@
 
 /* Inside RoleSelection.css */
 .quotes-container .typewriter-text {
-  font-size: 25px !important; /* Force the font size change */
+  font-size: 20px !important; /* Force the font size change */
 }
 
 /* Typewriter effect styles */
 .typewriter-text {
   font-family: 'Goudy Bookletter 1911', serif; /* Updated font */
-  font-size: 40px; /* Increased font size */
+  font-size: 30px; /* Increased font size */
   margin: 0; /* Remove margins to prevent height changes */
   display: inline-block;
   white-space: nowrap; /* Keep for larger screens */
@@ -78,8 +78,16 @@
 }
 
 @media (max-width: 600px) {
+  .quotes-container {
+    margin-bottom: 30px; /* Adds space between quotes and buttons */
+    min-height: 30px; /* Ensures a minimum height to prevent collapsing */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%; /* Ensure it takes full available width */
+  }
   .typewriter-text {
-    font-size: 22px; /* Adjust for better mobile fit */
+    font-size: 10px; /* Adjust for better mobile fit */
     white-space: normal; /* Allow text to wrap */
     max-width: 100%; /* Ensure it doesn't exceed container width */
     word-wrap: break-word; /* Break long words if necessary */
@@ -111,6 +119,7 @@
   margin: 20px auto 0;
   opacity: 0;
   transition: opacity 0.5s ease-in;
+  padding-bottom: 20px; /* Added padding at the bottom for extra space */
 }
 
 .buttons-container.visible {
@@ -122,6 +131,7 @@
   .buttons-container {
     flex-direction: column;
     align-items: center;
+    margin-top: 30px; /* Slightly less top margin on mobile for balance */
   }
 
   .buttons-container .MuiButton-root {
@@ -155,10 +165,14 @@ body {
     ); /* Ensure container doesn't exceed viewport width */
   }
 
-  /* Quotes Container Adjustments */
+  /* Adjust the quotes container to maintain balance */
   .quotes-container {
-    padding: 0 5px; /* Adds 5px padding on left and right */
-    min-height: 60px; /* Ensure it can expand */
+    margin-bottom: 70px !important; /* Reduced bottom margin */
+    min-height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
   }
 
   /* Typewriter Text Adjustments */

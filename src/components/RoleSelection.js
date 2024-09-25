@@ -44,7 +44,7 @@ const AnimatedTitle = styled(Typography)(({ theme }) => ({
     fontSize: '2.3em', // Smaller size for small screens
   },
   [theme.breakpoints.up('md')]: {
-    fontSize: '4.em', // Larger size for medium and up
+    fontSize: '4em', // Larger size for medium and up
   },
 }));
 
