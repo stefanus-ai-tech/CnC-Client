@@ -1,0 +1,92 @@
+/* client/src/components/RoleSelection.css */
+
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&family=Anonymous+Pro&display=swap');
+
+/* Reset default styles */
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+/* Container specific styles */
+.role-selection-container {
+  text-align: center;
+  padding-top: 5em; /* Adjusted to position the title higher */
+}
+
+/* Adjusted Animated Title Styles */
+.animated-title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 3.5em; /* Adjust as needed */
+  max-width: 100%;
+  margin: 0 auto 20px auto;
+  text-align: center;
+  animation: scale 3s forwards cubic-bezier(0.5, 1, 0.89, 1);
+}
+
+/* Adjusted scale animation */
+@keyframes scale {
+  100% {
+    transform: scale(1); /* Ensure no reduction */
+  }
+}
+
+.animated-title span {
+  display: inline-block;
+  opacity: 0;
+  filter: blur(4px);
+  /* Add spacing between words */
+  margin-right: 10px; /* Increased margin for better spacing */
+  animation: fade-in 2s forwards cubic-bezier(0.11, 0, 0.5, 0);
+}
+
+/* Keyframes for fade-in animation */
+@keyframes fade-in {
+  to {
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+/* Typewriter effect styles */
+.typewriter-text {
+  font-family: 'Anonymous Pro', monospace;
+  font-size: 20px;
+  margin: 20px 0;
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 0.15em solid #fff;
+}
+
+.cursor {
+  display: inline-block;
+  margin-left: 2px;
+  animation: blinkCursor 0.7s steps(44) infinite;
+}
+
+/* Blinking cursor animation */
+@keyframes blinkCursor {
+  from {
+    border-right-color: rgba(255, 255, 255, 0.75);
+  }
+  to {
+    border-right-color: transparent;
+  }
+}
+
+/* Global styles for body */
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #191919;
+  font-family: 'Anonymous Pro', monospace;
+  color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Changed from center to flex-start to align content towards the top */
+  min-height: 100vh;
+  padding-top: 2em; /* Added padding at the top for some space */
+}
