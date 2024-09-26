@@ -1,27 +1,27 @@
 // client/src/components/RoleSelection.js
 
-import React, { useState, useEffect } from 'react';
-import { Container, Typography, Box, Button } from '@mui/material';
-import { styled } from '@mui/material/styles';
-import './RoleSelection.css'; // Import the CSS file for styles
+import React, { useState, useEffect } from "react";
+import { Container, Typography, Box, Button } from "@mui/material";
+import { styled } from "@mui/material/styles";
+import "./RoleSelection.css"; // Import the CSS file for styles
 
 // Styled Button with Goudy Bookletter 1911 font and no uppercase transformation
 // Inside RoleSelection.js
 
 const StyledButton = styled(Button)(({ theme }) => ({
-  width: '120px', // Keep fixed width
-  height: '50px',
-  margin: '10px',
-  fontSize: '18px', // Increased font size
-  color: '#fff',
-  fontWeight: 'bold',
-  borderRadius: '8px',
-  fontFamily: 'Goudy Bookletter 1911, serif', // Updated font
-  textTransform: 'none', // Prevents uppercase transformation
-  [theme.breakpoints.down('sm')]: {
-    fontSize: '16px', // Smaller font size for mobile
-    width: '100%', // Full width on mobile
-    maxWidth: '300px',
+  width: "130px", // Keep fixed width
+  height: "65px",
+  margin: "10px",
+  fontSize: "18px", // Increased font size
+  color: "#fff",
+  fontWeight: "bold",
+  borderRadius: "8px",
+  fontFamily: "Goudy Bookletter 1911, serif", // Updated font
+  textTransform: "none", // Prevents uppercase transformation
+  [theme.breakpoints.down("sm")]: {
+    fontSize: "20px", // Smaller font size for mobile
+    width: "100%", // Full width on mobile
+    maxWidth: "300px",
   },
 }));
 
@@ -30,27 +30,28 @@ const quotes = [
   '"Let today be the day you find peace within yourself."',
 ];
 
-const animatedTitle = ['Welcome', 'to', 'the', 'Sanctuary', 'of', 'Confession']; // Removed trailing spaces
+const animatedTitle = ["Welcome", "to", "the", "Sanctuary", "of", "Confession"]; // Removed trailing spaces
 
 // Styled Typography with responsive font size and IM Fell English font
 const AnimatedTitle = styled(Typography)(({ theme }) => ({
-  fontFamily: 'IM Fell English, serif', // Updated font
-  fontSize: '4em', // Adjusted font size
-  maxWidth: '780px', // Reduced width for the title container
-  margin: '20px auto 50px auto', // Increased bottom margin for spacing
-  textAlign: 'center',
-  animation: 'scale 3s forwards cubic-bezier(0.5, 1, 0.89, 1)',
-  [theme.breakpoints.down('sm')]: {
-    fontSize: '2.3em', // Smaller size for small screens
+  fontFamily: "IM Fell English, serif", // Updated font
+  fontSize: "4em", // Adjusted font size
+  maxWidth: "780px", // Reduced width for the title container
+  margin: "-50px auto 10px auto", // Increased bottom margin for spacing
+  textAlign: "center",
+  animation: "scale 3s forwards cubic-bezier(0.5, 1, 0.89, 1)",
+  [theme.breakpoints.down("sm")]: {
+    fontSize: "2.3em", // Smaller size for small screens
+    margin: "40px auto 50px auto",
   },
-  [theme.breakpoints.up('md')]: {
-    fontSize: '4em', // Larger size for medium and up
+  [theme.breakpoints.up("md")]: {
+    fontSize: "4em", // Larger size for medium and up
   },
 }));
 
 const RoleSelection = ({ selectRole }) => {
   const [currentQuoteIndex, setCurrentQuoteIndex] = useState(0);
-  const [displayedText, setDisplayedText] = useState('');
+  const [displayedText, setDisplayedText] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
   const [typingSpeed, setTypingSpeed] = useState(150); // Initial typing speed
   const [titleAnimationComplete, setTitleAnimationComplete] = useState(false); // New state
@@ -123,7 +124,8 @@ const RoleSelection = ({ selectRole }) => {
             key={index}
             style={{
               animationDelay: `${0.1 + index * 0.2}s`,
-            }}>
+            }}
+          >
             {word}
           </span>
         ))}
@@ -137,24 +139,26 @@ const RoleSelection = ({ selectRole }) => {
       )}
 
       {/* Action Buttons */}
-      <Box className={`buttons-container ${buttonsVisible ? 'visible' : ''}`}>
+      <Box className={`buttons-container ${buttonsVisible ? "visible" : ""}`}>
         <StyledButton
           variant="contained"
           sx={{
-            backgroundColor: '#551606',
+            backgroundColor: "#551606",
             fontFamily: "'Goudy Bookletter 1911', serif",
           }}
-          onClick={() => selectRole('confessor')}>
+          onClick={() => selectRole("confessor")}
+        >
           Confessor
         </StyledButton>
         <StyledButton
           variant="contained"
           style={{
-            backgroundColor: '#f5eded',
-            color: '#000',
+            backgroundColor: "#f5eded",
+            color: "#000",
             fontFamily: "'Goudy Bookletter 1911', serif",
           }}
-          onClick={() => selectRole('listener')}>
+          onClick={() => selectRole("listener")}
+        >
           Listener
         </StyledButton>
       </Box>
